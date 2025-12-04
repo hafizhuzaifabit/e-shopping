@@ -17,7 +17,7 @@
   ],
   "functions": {
     "api/index.py": {
-      "runtime": "@vercel/python"
+      "runtime": "python3.9"
     }
   },
   "env": {
