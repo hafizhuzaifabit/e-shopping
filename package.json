@@ -1,0 +1,11 @@
+{
+  "name": "ecommerce-django",
+  "version": "1.0.0",
+  "description": "ShopSmart E-commerce Django App",
+  "scripts": {
+    "build": "echo 'No build step required for Django'"
+  }
+}
+
+
+

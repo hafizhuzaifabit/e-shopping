@@ -1,0 +1,21 @@
+{% load shop_tags %}
+<div class="product-card">
+    <h3 class="product-name">{{ product.name }}</h3>
+    <p class="product-price">${{ product.price|format_price }}</p>
+    
+    {# Stock status with if tag inside the loop #}
+    {% if product.stock == 0 %}
+        <p class="stock-status out-of-stock">Out of Stock</p>
+    {% elif product.stock > 0 and product.stock <= 5 %}
+        <p class="stock-status low-stock">Low Stock ({{ product.stock }} left)</p>
+    {% else %}
+        <p class="stock-status in-stock">In Stock ({{ product.stock }} available)</p>
+    {% endif %}
+    
+    {% if user.is_authenticated and product.stock > 0 %}
+        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-add-cart">Add to Cart</a>
+    {% elif not user.is_authenticated %}
+        <p class="login-prompt">Please <a href="{% url 'login' %}">login</a> to add to cart</p>
+    {% endif %}
+</div>
+

@@ -1,0 +1,52 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Profile - ShopSmart{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="fade-in" style="text-align: center; margin-bottom: 3rem;">Your Profile</h1>
+        
+        <div class="card fade-in" style="max-width: 600px; margin: 0 auto; padding: 3rem;">
+            <div class="product-details">
+                <h2 style="margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid var(--gray-light); color: var(--accent);">User Details</h2>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Username:</strong>
+                    <p style="color: var(--gray-dark); font-size: 1.125rem;">{{ user.username }}</p>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Email:</strong>
+                    <p style="color: var(--gray-dark); font-size: 1.125rem;">{{ user.email|default:"Not provided" }}</p>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">First Name:</strong>
+                    <p style="color: var(--gray-dark); font-size: 1.125rem;">{{ user.first_name|default:"Not provided" }}</p>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Last Name:</strong>
+                    <p style="color: var(--gray-dark); font-size: 1.125rem;">{{ user.last_name|default:"Not provided" }}</p>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Date Joined:</strong>
+                    <p style="color: var(--gray-dark); font-size: 1.125rem;">{{ user.date_joined|date:"F d, Y" }}</p>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <strong style="color: var(--text); display: block; margin-bottom: 0.5rem;">Last Login:</strong>
+                    <p style="color: var(--gray-dark); font-size: 1.125rem;">{{ user.last_login|date:"F d, Y H:i"|default:"Never" }}</p>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+                    <a href="{% url 'products' %}" class="btn btn-primary">Continue Shopping</a>
+                    <a href="{% url 'cart' %}" class="btn btn-outline">View Cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

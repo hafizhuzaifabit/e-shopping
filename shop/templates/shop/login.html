@@ -1,0 +1,40 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Login - ShopSmart{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="form-container fade-in">
+        <h2 style="text-align: center; margin-bottom: 0.5rem;">Login to ShopSmart</h2>
+        <p style="text-align: center; color: var(--gray-medium); margin-bottom: 2rem;">Welcome back! Please sign in to your account.</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required class="form-input-focus smooth-focus" placeholder="Enter your username">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required class="form-input-focus smooth-focus" placeholder="Enter your password">
+            </div>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-error">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            <button type="submit" class="btn btn-primary btn-ripple" style="width: 100%; margin-top: 1rem;">Login</button>
+        </form>
+        
+        <p style="text-align: center; margin-top: 2rem; color: var(--gray-medium);">
+            Don't have an account? <a href="{% url 'signup' %}" style="color: var(--accent); font-weight: 600;">Sign up here</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

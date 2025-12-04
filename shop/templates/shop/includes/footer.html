@@ -1,0 +1,32 @@
+{% load shop_tags %}
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section fade-in">
+                <h3>ShopSmart</h3>
+                <p>Premium e-commerce experience. Quality products, exceptional service.</p>
+            </div>
+            <div class="footer-section fade-in fade-in-delay-1">
+                <h3>Quick Links</h3>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'products' %}">Products</a>
+                <a href="{% url 'cart' %}">Cart</a>
+            </div>
+            <div class="footer-section fade-in fade-in-delay-2">
+                <h3>Account</h3>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}">Profile</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'signup' %}">Sign Up</a>
+                {% endif %}
+            </div>
+            <div class="footer-section fade-in fade-in-delay-3">
+                <h3>Info</h3>
+                <p>&copy; {% now "Y" %} ShopSmart</p>
+                <p>Total Products: {% total_products %}</p>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,78 @@
+{% extends 'shop/base.html' %}
+{% load shop_tags %}
+
+{% block title %}{{ product.name }} - ShopSmart{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="product-detail">
+            <!-- Product Gallery -->
+            <div class="product-gallery fade-in">
+                <img src="{{ product.get_image_url }}" alt="{{ product.name }}" class="main-image">
+                <div class="thumbnail-grid">
+                    <img src="{{ product.get_image_url }}" alt="{{ product.name }}" class="thumbnail">
+                    <img src="{{ product.get_image_url }}" alt="{{ product.name }}" class="thumbnail">
+                    <img src="{{ product.get_image_url }}" alt="{{ product.name }}" class="thumbnail">
+                    <img src="{{ product.get_image_url }}" alt="{{ product.name }}" class="thumbnail">
+                </div>
+            </div>
+            
+            <!-- Product Details -->
+            <div class="product-details slide-up">
+                <h1 class="product-title">{{ product.name }}</h1>
+                
+                <p class="detail-price">${{ product.price|format_price }}</p>
+                
+                {% if product.stock == 0 %}
+                    <span class="stock-status out-of-stock" style="display: inline-block; margin-bottom: 2rem;">Out of Stock</span>
+                {% elif product.stock > 0 and product.stock <= 5 %}
+                    <span class="stock-status low-stock" style="display: inline-block; margin-bottom: 2rem;">Low Stock ({{ product.stock }} left)</span>
+                {% else %}
+                    <span class="stock-status in-stock" style="display: inline-block; margin-bottom: 2rem;">In Stock ({{ product.stock }} available)</span>
+                {% endif %}
+                
+                <p class="product-description">
+                    {{ product.description|default:"Premium quality product with exceptional design and functionality. Perfect for your needs." }}
+                </p>
+                
+                {% if user.is_authenticated and product.stock > 0 %}
+                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-ripple" style="width: 100%; padding: 1.25rem; font-size: 1.125rem; margin-top: 2rem;">
+                        Add to Cart
+                    </a>
+                {% elif not user.is_authenticated %}
+                    <p style="margin-top: 2rem; color: var(--gray-medium);">
+                        Please <a href="{% url 'login' %}" style="color: var(--accent); font-weight: 600;">login</a> to add to cart
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Suggested Products -->
+        {% if suggested_products %}
+            <div style="margin-top: 4rem;">
+                <h2 class="fade-in" style="text-align: center; margin-bottom: 3rem;">You May Also Like</h2>
+                <div class="products-grid">
+                    {% for suggested in suggested_products %}
+                        <div class="product-card card-hover stagger-item">
+                            <div class="product-image-wrapper">
+                                <a href="{% url 'product_detail' suggested.id %}">
+                                    <img src="{{ suggested.get_image_url }}" alt="{{ suggested.name }}" class="product-image">
+                                </a>
+                            </div>
+                            <div class="product-info">
+                                <a href="{% url 'product_detail' suggested.id %}">
+                                    <h3 class="product-name">{{ suggested.name }}</h3>
+                                </a>
+                                <p class="product-price">${{ suggested.price|format_price }}</p>
+                                <a href="{% url 'product_detail' suggested.id %}" class="btn btn-outline" style="width: 100%; margin-top: 1rem;">View Details</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+

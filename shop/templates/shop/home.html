@@ -1,0 +1,100 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Home - ShopSmart{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content slide-up">
+            {% if user.is_authenticated %}
+                <h1 class="hero-text">Welcome back, {{ user.username }}!</h1>
+                <p>Discover our curated collection of premium products.</p>
+                <div style="margin-top: 2rem;">
+                    <a href="{% url 'products' %}" class="btn btn-primary btn-ripple">Shop Now</a>
+                </div>
+            {% else %}
+                <h1 class="hero-text">Welcome to ShopSmart</h1>
+                <p>Premium products, exceptional quality. Start your shopping journey today.</p>
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="{% url 'signup' %}" class="btn btn-primary btn-ripple">Get Started</a>
+                    <a href="{% url 'products' %}" class="btn btn-outline">Browse Products</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Category Grid -->
+<section class="section">
+    <div class="container">
+        <h2 class="fade-in" style="text-align: center; margin-bottom: 3rem;">Shop by Category</h2>
+        <div class="category-grid">
+            <div class="category-card category-hover stagger-item">
+                <h3>Electronics</h3>
+                <p>Latest tech & gadgets</p>
+            </div>
+            <div class="category-card category-hover stagger-item">
+                <h3>Fashion</h3>
+                <p>Style & elegance</p>
+            </div>
+            <div class="category-card category-hover stagger-item">
+                <h3>Home & Living</h3>
+                <p>Comfort & design</p>
+            </div>
+            <div class="category-card category-hover stagger-item">
+                <h3>Accessories</h3>
+                <p>Complete your look</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="section featured-section">
+    <div class="container">
+        <h2 class="fade-in" style="text-align: center; margin-bottom: 3rem;">Featured Products</h2>
+        <div class="products-grid">
+            {% for product in page_obj|slice:":6" %}
+                <div class="product-card card-hover stagger-item">
+                    <div class="product-image-wrapper">
+                        <img src="{{ product.get_image_url }}" alt="{{ product.name }}" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">{{ product.name }}</h3>
+                        <p class="product-price">${{ product.price|floatformat:2 }}</p>
+                        {% if product.stock == 0 %}
+                            <span class="stock-status out-of-stock">Out of Stock</span>
+                        {% elif product.stock > 0 and product.stock <= 5 %}
+                            <span class="stock-status low-stock">Low Stock</span>
+                        {% else %}
+                            <span class="stock-status in-stock">In Stock</span>
+                        {% endif %}
+                        {% if user.is_authenticated and product.stock > 0 %}
+                            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Add to Cart</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <p class="fade-in" style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-medium);">No products available yet.</p>
+            {% endfor %}
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="{% url 'products' %}" class="btn btn-outline">View All Products</a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonial Section -->
+<section class="section">
+    <div class="container">
+        <div class="card" style="max-width: 800px; margin: 0 auto; padding: 3rem; text-align: center;">
+            <h2 class="fade-in">What Our Customers Say</h2>
+            <p class="fade-in fade-in-delay-1" style="font-size: 1.25rem; font-style: italic; color: var(--gray-dark); margin: 2rem 0;">
+                "ShopSmart offers an exceptional shopping experience with premium quality products and outstanding customer service."
+            </p>
+            <p class="fade-in fade-in-delay-2" style="font-weight: 600; color: var(--accent);">— Satisfied Customer</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
